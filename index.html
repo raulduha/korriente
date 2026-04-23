@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Korriente — automatización · inteligencia · flujo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #161616;
+      --blue: #2563eb;
+      --blue-dim: #1d4ed8;
+      --cyan: #06b6d4;
+      --text: #f0f0f0;
+      --muted: #888;
+      --border: rgba(255,255,255,0.07);
+      --card-bg: rgba(255,255,255,0.03);
+      --font: 'Space Grotesk', sans-serif;
+      --mono: 'Space Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::selection { background: rgba(37,99,235,0.3); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+    /* Fade-in animation */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+    .fade-in-delay-5 { transition-delay: 0.5s; }
+    .fade-in-delay-6 { transition-delay: 0.6s; }
+    .fade-in-delay-7 { transition-delay: 0.7s; }
+
+    /* Layout */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 96px 0; }
+
+    /* NAVBAR */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 0;
+      transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; text-decoration: none; }
+    .logo .k { color: var(--blue); }
+    .logo .rest { color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      color: var(--muted); font-size: 14px; text-decoration: none;
+      transition: color 0.2s; font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn-wa-nav {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--blue); color: #fff;
+      padding: 8px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+    .btn-wa-nav:hover { background: var(--blue-dim); transform: translateY(-1px); }
+    .nav-mobile-toggle {
+      display: none; background: none; border: none; cursor: pointer;
+      color: var(--text); padding: 4px;
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; align-items: flex-start;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(10,10,10,0.97); backdrop-filter: blur(20px);
+        padding: 20px 24px; gap: 20px;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-mobile-toggle { display: block; }
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding-top: 100px; padding-bottom: 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+    }
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { order: -1; }
+    }
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 400;
+      color: var(--cyan); letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-headline {
+      font-size: clamp(36px, 5vw, 64px); font-weight: 700;
+      line-height: 1.08; letter-spacing: -1.5px;
+      color: var(--text); margin-bottom: 24px;
+      text-wrap: balance;
+    }
+    .hero-headline .accent { color: var(--blue); }
+    .hero-sub {
+      font-size: 18px; color: var(--muted); line-height: 1.7;
+      margin-bottom: 36px; max-width: 460px;
+      text-wrap: pretty;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue); color: #fff;
+      padding: 14px 26px; border-radius: 10px;
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--blue-dim); transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(37,99,235,0.35);
+    }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text);
+      padding: 14px 26px; border-radius: 10px;
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, transform 0.15s, background 0.2s;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-2px);
+    }
+
+    /* Abstract visual */
+    .hero-visual {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      height: 420px;
+    }
+    .hero-visual-inner {
+      position: relative; width: 100%; height: 100%; border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px); animation: pulse 4s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(37,99,235,0.4), transparent);
+      top: 20%; left: 20%;
+    }
+    .orb-2 {
+      width: 150px; height: 150px;
+      background: radial-gradient(circle, rgba(6,182,212,0.3), transparent);
+      bottom: 25%; right: 20%;
+      animation-delay: 1.5s; animation-duration: 5s;
+    }
+    .orb-3 {
+      width: 100px; height: 100px;
+      background: radial-gradient(circle, rgba(37,99,235,0.2), transparent);
+      top: 60%; left: 50%;
+      animation-delay: 0.75s; animation-duration: 3.5s;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1) translate(0,0); opacity: 0.8; }
+      50% { transform: scale(1.15) translate(8px, -8px); opacity: 1; }
+    }
+    .flow-lines {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(255,255,255,0.012) 20px,
+        rgba(255,255,255,0.012) 21px
+      );
+    }
+    .hero-visual-badge {
+      position: absolute; bottom: 20px; left: 20px;
+      background: rgba(10,10,10,0.8); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+    }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .badge-text { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+    .badge-text strong { color: var(--text); }
+    .hero-visual-badge2 {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(10,10,10,0.8); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .badge2-label { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+    .badge2-value { font-size: 22px; font-weight: 700; color: var(--cyan); line-height: 1.2; }
+    .badge2-sub { font-size: 11px; color: var(--muted); }
+
+    /* SOCIAL PROOF BAR */
+    #social-proof {
+      padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .proof-bar { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; justify-content: center; }
+    .proof-item { display: flex; align-items: center; gap: 10px; }
+    .proof-num { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--text); }
+    .proof-label { font-size: 13px; color: var(--muted); }
+    .proof-sep { width: 1px; height: 32px; background: var(--border); }
+    @media (max-width: 600px) { .proof-sep { display: none; } }
+
+    /* SERVICES */
+    #services { background: var(--bg); }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-tag {
+      font-family: var(--mono); font-size: 11px; color: var(--cyan);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px); font-weight: 700;
+      letter-spacing: -0.8px; text-wrap: balance; line-height: 1.15;
+    }
+    .section-sub { font-size: 17px; color: var(--muted); margin-top: 14px; text-wrap: pretty; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 26px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: border-color 0.25s, background 0.25s, transform 0.2s;
+      cursor: default;
+    }
+    .service-card:hover {
+      border-color: rgba(37,99,235,0.3);
+      background: rgba(37,99,235,0.04);
+      transform: translateY(-3px);
+    }
+    .service-icon {
+      width: 40px; height: 40px;
+      background: rgba(37,99,235,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; color: var(--blue);
+      transition: background 0.25s;
+    }
+    .service-card:hover .service-icon { background: rgba(37,99,235,0.2); }
+    .service-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .service-pain {
+      font-size: 12px; color: var(--cyan); font-family: var(--mono);
+      margin-bottom: 10px; letter-spacing: 0.3px;
+    }
+    .service-desc { font-size: 14px; color: var(--muted); line-height: 1.6; text-wrap: pretty; }
+
+    /* HOW WE WORK */
+    #how { background: var(--bg2); }
+    .timeline {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; position: relative; margin-top: 56px;
+    }
+    .timeline::before {
+      content: ''; position: absolute;
+      top: 28px; left: calc(12.5% + 20px); right: calc(12.5% + 20px);
+      height: 1px; background: linear-gradient(90deg, var(--blue), var(--cyan));
+      z-index: 0;
+    }
+    @media (max-width: 700px) {
+      .timeline { grid-template-columns: 1fr; gap: 32px; }
+      .timeline::before { display: none; }
+    }
+    .timeline-step { text-align: center; position: relative; padding: 0 16px; }
+    .timeline-dot {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      position: relative; z-index: 1;
+      color: var(--blue); font-size: 20px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .timeline-step:hover .timeline-dot {
+      border-color: var(--blue); background: rgba(37,99,235,0.12);
+    }
+    .timeline-num {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      margin-bottom: 6px; letter-spacing: 1px;
+    }
+    .timeline-name { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .timeline-desc { font-size: 13px; color: var(--muted); line-height: 1.6; text-wrap: pretty; }
+    .timeline-badge {
+      display: inline-block; margin-top: 10px;
+      font-family: var(--mono); font-size: 11px;
+      background: rgba(6,182,212,0.1); color: var(--cyan);
+      padding: 4px 10px; border-radius: 20px;
+      border: 1px solid rgba(6,182,212,0.2);
+    }
+
+    /* WHY KORRIENTE */
+    #why { background: var(--bg); }
+    .why-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: start; margin-top: 56px;
+    }
+    @media (max-width: 800px) { .why-grid { grid-template-columns: 1fr; } }
+    .why-col-header {
+      font-size: 13px; font-family: var(--mono); letter-spacing: 1px;
+      text-transform: uppercase; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .why-col-left .why-col-header { color: var(--muted); }
+    .why-col-right .why-col-header { color: var(--cyan); }
+    .why-row {
+      display: flex; gap: 14px; padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .why-row:last-child { border-bottom: none; }
+    .why-icon { flex-shrink: 0; margin-top: 2px; }
+    .why-text strong { font-size: 14px; display: block; margin-bottom: 3px; }
+    .why-text span { font-size: 13px; color: var(--muted); }
+    .why-col-left .why-icon { color: #ef4444; }
+    .why-col-right .why-icon { color: #22c55e; }
+
+    /* CTA */
+    #cta {
+      background: var(--bg2);
+      text-align: center;
+    }
+    .cta-inner {
+      max-width: 680px; margin: 0 auto;
+      padding: 72px 32px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(6,182,212,0.05));
+      border: 1px solid rgba(37,99,235,0.15);
+      border-radius: 20px;
+    }
+    .cta-headline {
+      font-size: clamp(26px, 4vw, 42px); font-weight: 700;
+      letter-spacing: -0.8px; margin-bottom: 16px; line-height: 1.15;
+      text-wrap: balance;
+    }
+    .cta-sub { font-size: 16px; color: var(--muted); margin-bottom: 36px; text-wrap: pretty; }
+    .cta-number {
+      display: block; font-family: var(--mono); font-size: 14px;
+      color: var(--muted); margin-top: 20px;
+    }
+    .cta-number a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+    .cta-number a:hover { color: var(--cyan); }
+    .btn-primary-large {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--blue); color: #fff;
+      padding: 16px 36px; border-radius: 12px;
+      font-size: 17px; font-weight: 700; text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary-large:hover {
+      background: var(--blue-dim); transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(37,99,235,0.4);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-left .tagline { font-size: 13px; color: var(--muted); margin-top: 4px; font-family: var(--mono); }
+    .footer-right { display: flex; align-items: center; gap: 20px; }
+    .footer-link { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-link:hover { color: var(--text); }
+    .footer-wa {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; color: var(--text); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-wa:hover { color: var(--cyan); }
+
+    /* SVG icons */
+    svg { display: block; }
+  </style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ---- Icons (inline SVGs) ----
+const Icon = ({ name, size = 20, ...props }) => {
+  const icons = {
+    messageCircle: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+    fileText: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>,
+    trendingUp: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>,
+    brain: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M9.5 2a2.5 2.5 0 0 1 5 0c1.2.1 3.5 1 3.5 4.5 0 2-.5 3-1 4 .5.8 1 2 1 3.5 0 3-2 4-2 4h-8s-2-1-2-4c0-1.5.5-2.7 1-3.5-.5-1-1-2-1-4 0-3.5 2.3-4.4 3.5-4.5z"/></svg>,
+    zap: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+    eye: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
+    shield: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+    whatsapp: <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>,
+    menu: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" {...props}><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>,
+    x: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" {...props}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+    check: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="20 6 9 17 4 12"/></svg>,
+    close: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" {...props}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+    arrowRight: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+    search: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+    git: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>,
+    gauge: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 2C6.5 2 2 6.5 2 12a10 10 0 0 0 10 10c5.5 0 10-4.5 10-10S17.5 2 12 2z"/><polyline points="12 6 12 12 16 14"/></svg>,
+    clock: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+    dollarSign: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
+    code: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+    presentation: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="2" y1="3" x2="22" y2="3"/><line x1="2" y1="21" x2="22" y2="21"/><rect x="4" y="3" width="16" height="12" rx="1"/></svg>,
+  };
+  return icons[name] || null;
+};
+
+// ---- useFadeIn hook ----
+function useFadeIn(threshold = 0.15) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add('visible'); observer.unobserve(el); } },
+      { threshold }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
+
+// ---- Navbar ----
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const links = [
+    { href: '#services', label: 'Servicios' },
+    { href: '#how', label: 'Cómo trabajamos' },
+    { href: '#why', label: 'Por qué Korriente' },
+  ];
+
+  return (
+    <nav className={scrolled ? 'scrolled' : ''}>
+      <div className="container">
+        <div className="nav-inner">
+          <a href="#hero" className="logo">
+            <span className="k">K</span><span className="rest">orriente</span>
+          </a>
+          <div className={`nav-links${menuOpen ? ' open' : ''}`}>
+            {links.map(l => (
+              <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)}>{l.label}</a>
+            ))}
+            <a href="https://wa.me/56998290823" target="_blank" rel="noopener" className="btn-wa-nav" onClick={() => setMenuOpen(false)}>
+              <Icon name="whatsapp" size={16} />
+              WhatsApp
+            </a>
+          </div>
+          <button className="nav-mobile-toggle" onClick={() => setMenuOpen(v => !v)} aria-label="Menu">
+            <Icon name={menuOpen ? 'x' : 'menu'} size={22} />
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+// ---- Hero ----
+function Hero() {
+  return (
+    <section id="hero">
+      <div className="container">
+        <div className="hero-grid">
+          <div>
+            <div className="hero-eyebrow fade-in visible">automatización · inteligencia · flujo</div>
+            <h1 className="hero-headline fade-in visible" style={{transitionDelay:'0.1s'}}>
+              IA que funciona.<br/>
+              <span className="accent">Sin decks.</span><br/>
+              Sin esperar meses.
+            </h1>
+            <p className="hero-sub fade-in visible" style={{transitionDelay:'0.2s'}}>
+              Implementamos automatización e inteligencia artificial en tu empresa en semanas, no meses. Sin consultoras caras, sin PowerPoints, sin transformación digital de fantasía.
+            </p>
+            <div className="hero-actions fade-in visible" style={{transitionDelay:'0.3s'}}>
+              <a href="https://wa.me/56998290823" target="_blank" rel="noopener" className="btn-primary">
+                <Icon name="whatsapp" size={18} />
+                Hablemos por WhatsApp
+              </a>
+              <a href="#services" className="btn-secondary">
+                Ver servicios
+                <Icon name="arrowRight" size={16} />
+              </a>
+            </div>
+          </div>
+          <div className="hero-visual fade-in visible" style={{transitionDelay:'0.4s'}}>
+            <div className="hero-visual-inner">
+              <div className="grid-bg"></div>
+              <div className="flow-lines"></div>
+              <div className="orb orb-1"></div>
+              <div className="orb orb-2"></div>
+              <div className="orb orb-3"></div>
+              <div className="hero-visual-badge">
+                <div className="badge-dot"></div>
+                <div className="badge-text"><strong>Piloto activo</strong> — Semana 3 de 4</div>
+              </div>
+              <div className="hero-visual-badge2">
+                <div className="badge2-label">TIEMPO AHORRADO</div>
+                <div className="badge2-value">23h</div>
+                <div className="badge2-sub">esta semana · +18% vs ant.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- Social Proof ----
+function SocialProof() {
+  const ref = useFadeIn(0.2);
+  const items = [
+    { num: '8 sem', label: 'tiempo promedio de piloto' },
+    { num: '3–10×', label: 'ROI en año 1' },
+    { num: '100%', label: 'proyectos con medición' },
+    { num: 'CL + LATAM', label: 'cobertura de operación' },
+  ];
+  return (
+    <div id="social-proof">
+      <div className="container">
+        <div className="proof-bar fade-in" ref={ref}>
+          {items.map((item, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <div className="proof-sep"></div>}
+              <div className="proof-item">
+                <div className="proof-num">{item.num}</div>
+                <div className="proof-label">{item.label}</div>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---- Services ----
+function Services() {
+  const headerRef = useFadeIn();
+  const services = [
+    {
+      icon: 'messageCircle',
+      title: 'Bots y agentes conversacionales',
+      pain: 'Tu equipo responde lo mismo 50 veces al día.',
+      desc: 'Agentes para WhatsApp, email y voz que resuelven consultas, califican leads y escalan solo cuando es necesario.',
+    },
+    {
+      icon: 'fileText',
+      title: 'Procesamiento de documentos',
+      pain: 'Tu contadora pasa 3 horas al día transcribiendo facturas.',
+      desc: 'Extracción y registro automático de facturas, contratos e informes. Directo a tu ERP o sistema contable.',
+    },
+    {
+      icon: 'trendingUp',
+      title: 'Inteligencia predictiva',
+      pain: 'No sabes qué va a pasar con la demanda el próximo mes.',
+      desc: 'Forecasting de demanda, scoring de leads, detección de anomalías y fraude con modelos entrenados en tus datos.',
+    },
+    {
+      icon: 'brain',
+      title: 'Copilotos internos RAG',
+      pain: 'El conocimiento de tu empresa está disperso y nadie lo usa.',
+      desc: 'Convertimos tu Drive, Notion y Slack en un asistente que responde al instante con información precisa y actualizada.',
+    },
+    {
+      icon: 'git',
+      title: 'Automatización clásica sin IA',
+      pain: 'Tus sistemas no se hablan entre sí.',
+      desc: 'Integraciones entre CRM, ERP, SII y ecommerce usando n8n y webhooks. Sin código, sin consultoras, sin esperas.',
+    },
+    {
+      icon: 'eye',
+      title: 'IA con visión',
+      pain: 'Revisar imágenes de producto toma horas cada semana.',
+      desc: 'Análisis automático de imágenes de producto, inventario y generación de contenido visual a escala.',
+    },
+    {
+      icon: 'shield',
+      title: 'IA soberana on-premise',
+      pain: 'Tus datos no pueden salir del perímetro.',
+      desc: 'Modelos instalados en tu infraestructura con cumplimiento de la Ley 21.719. Sin dependencia de APIs externas.',
+    },
+  ];
+
+  return (
+    <section id="services">
+      <div className="container">
+        <div className="section-header fade-in" ref={headerRef}>
+          <div className="section-tag">Servicios</div>
+          <h2 className="section-title">Problemas concretos.<br/>Soluciones que se miden.</h2>
+          <p className="section-sub">Siete áreas de implementación. Ningún PowerPoint incluido.</p>
+        </div>
+        <div className="services-grid">
+          {services.map((s, i) => {
+            const cardRef = useFadeIn(0.1);
+            return (
+              <div
+                key={i}
+                className={`service-card fade-in fade-in-delay-${Math.min(i+1,7)}`}
+                ref={cardRef}
+              >
+                <div className="service-icon">
+                  <Icon name={s.icon} size={18} />
+                </div>
+                <div className="service-title">{s.title}</div>
+                <div className="service-pain">{s.pain}</div>
+                <div className="service-desc">{s.desc}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- How We Work ----
+function HowWeWork() {
+  const headerRef = useFadeIn();
+  const timelineRef = useFadeIn(0.1);
+  const steps = [
+    {
+      icon: 'search',
+      num: '01',
+      name: 'Diagnóstico',
+      desc: 'Una sesión de trabajo para mapear procesos, identificar el mayor dolor y definir el alcance exacto del piloto.',
+      badge: '1–2 días',
+    },
+    {
+      icon: 'zap',
+      num: '02',
+      name: 'Piloto',
+      desc: 'Construimos la solución funcional sobre tus datos reales. Nada de demos, nada de sandbox.',
+      badge: '2–4 semanas',
+    },
+    {
+      icon: 'gauge',
+      num: '03',
+      name: 'Medición',
+      desc: 'Definimos métricas antes de empezar. Al final del piloto sabes exactamente cuánto tiempo y dinero se ahorra.',
+      badge: 'Semana 4–5',
+    },
+    {
+      icon: 'trendingUp',
+      num: '04',
+      name: 'Escala',
+      desc: 'Si los números cierran, expandimos. Si no, te decimos por qué y qué ajustar. Sin contratos de meses.',
+      badge: 'Mes 2+',
+    },
+  ];
+
+  return (
+    <section id="how">
+      <div className="container">
+        <div className="section-header fade-in" ref={headerRef}>
+          <div className="section-tag">Proceso</div>
+          <h2 className="section-title">De diagnóstico a resultado<br/>en menos de 8 semanas.</h2>
+          <p className="section-sub">Piloto funcionando o te devolvemos el dinero. Así de simple.</p>
+        </div>
+        <div className="timeline fade-in" ref={timelineRef}>
+          {steps.map((step, i) => (
+            <div key={i} className="timeline-step">
+              <div className="timeline-dot">
+                <Icon name={step.icon} size={20} />
+              </div>
+              <div className="timeline-num">PASO {step.num}</div>
+              <div className="timeline-name">{step.name}</div>
+              <div className="timeline-desc">{step.desc}</div>
+              <span className="timeline-badge">{step.badge}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- Why Korriente ----
+function WhyKorriente() {
+  const headerRef = useFadeIn();
+  const leftRef = useFadeIn(0.1);
+  const rightRef = useFadeIn(0.1);
+
+  const them = [
+    { title: 'Meses de descubrimiento', desc: 'Workshops de 3 meses antes de tocar una sola línea de código.' },
+    { title: 'Precio de consultoría grande', desc: 'Equipos de 8 personas con seniority de papel y costos de boutique.' },
+    { title: 'Stack legacy o propio', desc: 'Te amarran a su plataforma. Si te vas, pierdes todo.' },
+    { title: 'Decks, decks y más decks', desc: 'Entregables en PowerPoint que nadie lee y no mueven nada.' },
+  ];
+  const us = [
+    { title: 'Piloto en 2–4 semanas', desc: 'Diagnóstico rápido, priorización honesta, build desde el día 1.' },
+    { title: 'Precio de equipo interno', desc: 'Un equipo pequeño y senior que factura por resultado, no por hora.' },
+    { title: 'Stack moderno y abierto', desc: 'n8n, LangChain, modelos open-source. Tu stack, tu control.' },
+    { title: 'Cero PowerPoints', desc: 'Solo código funcionando, métricas y conversaciones en WhatsApp.' },
+  ];
+
+  return (
+    <section id="why">
+      <div className="container">
+        <div className="section-header fade-in" ref={headerRef}>
+          <div className="section-tag">Por qué Korriente</div>
+          <h2 className="section-title">No somos una consultora.<br/>Y eso es un feature.</h2>
+        </div>
+        <div className="why-grid">
+          <div className="why-col-left">
+            <div className="why-col-header fade-in" ref={leftRef}>Consultoras grandes</div>
+            {them.map((row, i) => {
+              const r = useFadeIn(0.1);
+              return (
+                <div key={i} className="why-row fade-in" ref={r}>
+                  <div className="why-icon"><Icon name="close" size={16} /></div>
+                  <div className="why-text">
+                    <strong>{row.title}</strong>
+                    <span>{row.desc}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="why-col-right">
+            <div className="why-col-header fade-in" ref={rightRef}>Korriente</div>
+            {us.map((row, i) => {
+              const r = useFadeIn(0.1);
+              return (
+                <div key={i} className="why-row fade-in" ref={r}>
+                  <div className="why-icon"><Icon name="check" size={16} /></div>
+                  <div className="why-text">
+                    <strong>{row.title}</strong>
+                    <span>{row.desc}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- CTA ----
+function CTA() {
+  const ref = useFadeIn(0.2);
+  return (
+    <section id="cta">
+      <div className="container">
+        <div className="cta-inner fade-in" ref={ref}>
+          <h2 className="cta-headline">¿Cuánto te cuesta<br/>no automatizar esto?</h2>
+          <p className="cta-sub">
+            Una conversación de 30 minutos para entender tu problema.<br/>
+            Sin compromiso, sin pitch, sin deck.
+          </p>
+          <a href="https://wa.me/56998290823" target="_blank" rel="noopener" className="btn-primary-large">
+            <Icon name="whatsapp" size={22} />
+            Hablar con un humano ahora
+          </a>
+          <span className="cta-number">
+            o escríbenos directo:&nbsp;
+            <a href="https://wa.me/56998290823" target="_blank" rel="noopener">+56 9 9829 0823</a>
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---- Footer ----
+function Footer() {
+  return (
+    <footer>
+      <div className="container">
+        <div className="footer-inner">
+          <div className="footer-left">
+            <div className="logo">
+              <span className="k">K</span><span className="rest">orriente</span>
+            </div>
+            <div className="tagline">automatización · inteligencia · flujo</div>
+          </div>
+          <div className="footer-right">
+            <a href="#services" className="footer-link">Servicios</a>
+            <a href="#how" className="footer-link">Proceso</a>
+            <a href="https://wa.me/56998290823" target="_blank" rel="noopener" className="footer-wa">
+              <Icon name="whatsapp" size={16} />
+              +56 9 9829 0823
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ---- App ----
+function App() {
+  return (
+    <>
+      <Navbar />
+      <Hero />
+      <SocialProof />
+      <Services />
+      <HowWeWork />
+      <WhyKorriente />
+      <CTA />
+      <Footer />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+<!-- Tweaks panel -->
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "primaryColor": "#2563eb",
+  "accentColor": "#06b6d4",
+  "bgColor": "#0a0a0a",
+  "heroHeadline": "IA que funciona.\nSin decks.\nSin esperar meses.",
+  "ctaText": "Hablar con un humano ahora",
+  "showBadge": true
+}/*EDITMODE-END*/;
+
+function TweaksPanel() {
+  const [visible, setVisible] = React.useState(false);
+  const [tweaks, setTweaks] = React.useState(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === '__activate_edit_mode') setVisible(true);
+      if (e.data?.type === '__deactivate_edit_mode') setVisible(false);
+    };
+    window.addEventListener('message', handler);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  const apply = (key, val) => {
+    const next = { ...tweaks, [key]: val };
+    setTweaks(next);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: val } }, '*');
+    // Apply live
+    if (key === 'primaryColor') document.documentElement.style.setProperty('--blue', val);
+    if (key === 'accentColor') document.documentElement.style.setProperty('--cyan', val);
+    if (key === 'bgColor') document.documentElement.style.setProperty('--bg', val);
+  };
+
+  if (!visible) return null;
+
+  const panelStyle = {
+    position: 'fixed', bottom: 24, right: 24, zIndex: 9999,
+    background: 'rgba(17,17,17,0.97)', border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: 14, padding: '20px 22px', width: 280,
+    backdropFilter: 'blur(20px)', boxShadow: '0 24px 64px rgba(0,0,0,0.6)',
+    fontFamily: 'Space Grotesk, sans-serif',
+  };
+  const labelStyle = { fontSize: 12, color: '#888', marginBottom: 6, display: 'block', fontFamily: 'Space Mono, monospace', letterSpacing: '0.5px' };
+  const rowStyle = { marginBottom: 16 };
+  const inputStyle = {
+    width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 8, padding: '8px 10px', color: '#f0f0f0', fontSize: 13,
+    outline: 'none', fontFamily: 'Space Grotesk, sans-serif',
+  };
+  const colorRowStyle = { display: 'flex', gap: 8, alignItems: 'center' };
+
+  return (
+    <div style={panelStyle}>
+      <div style={{ fontSize: 13, fontWeight: 700, color: '#f0f0f0', marginBottom: 18, letterSpacing: '-0.3px' }}>Tweaks</div>
+      <div style={rowStyle}>
+        <span style={labelStyle}>COLOR PRIMARIO</span>
+        <div style={colorRowStyle}>
+          <input type="color" value={tweaks.primaryColor} onChange={e => apply('primaryColor', e.target.value)}
+            style={{ width: 36, height: 32, border: 'none', background: 'none', cursor: 'pointer', borderRadius: 6 }} />
+          <span style={{ fontSize: 12, color: '#888', fontFamily: 'Space Mono, monospace' }}>{tweaks.primaryColor}</span>
+        </div>
+      </div>
+      <div style={rowStyle}>
+        <span style={labelStyle}>COLOR ACENTO</span>
+        <div style={colorRowStyle}>
+          <input type="color" value={tweaks.accentColor} onChange={e => apply('accentColor', e.target.value)}
+            style={{ width: 36, height: 32, border: 'none', background: 'none', cursor: 'pointer', borderRadius: 6 }} />
+          <span style={{ fontSize: 12, color: '#888', fontFamily: 'Space Mono, monospace' }}>{tweaks.accentColor}</span>
+        </div>
+      </div>
+      <div style={rowStyle}>
+        <span style={labelStyle}>FONDO BASE</span>
+        <div style={colorRowStyle}>
+          <input type="color" value={tweaks.bgColor} onChange={e => apply('bgColor', e.target.value)}
+            style={{ width: 36, height: 32, border: 'none', background: 'none', cursor: 'pointer', borderRadius: 6 }} />
+          <span style={{ fontSize: 12, color: '#888', fontFamily: 'Space Mono, monospace' }}>{tweaks.bgColor}</span>
+        </div>
+      </div>
+      <div style={rowStyle}>
+        <span style={labelStyle}>BADGE VISUAL HERO</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <input type="checkbox" checked={tweaks.showBadge} onChange={e => apply('showBadge', e.target.checked)}
+            id="badge-toggle" style={{ accentColor: tweaks.primaryColor, width: 16, height: 16, cursor: 'pointer' }} />
+          <label htmlFor="badge-toggle" style={{ fontSize: 13, color: '#888', cursor: 'pointer' }}>Mostrar indicadores</label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const tweaksRoot = document.createElement('div');
+document.body.appendChild(tweaksRoot);
+ReactDOM.createRoot(tweaksRoot).render(<TweaksPanel />);
+</script>
+
+</body>
+</html>

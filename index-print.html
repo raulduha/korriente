@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Korriente — automatización · inteligencia · flujo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #161616;
+      --blue: #2563eb;
+      --blue-dim: #1d4ed8;
+      --cyan: #06b6d4;
+      --text: #f0f0f0;
+      --muted: #888;
+      --border: rgba(255,255,255,0.07);
+      --card-bg: rgba(255,255,255,0.03);
+      --font: 'Space Grotesk', sans-serif;
+      --mono: 'Space Mono', monospace;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+    section { padding: 64px 0; }
+    svg { display: block; }
+
+    /* ---- HERO PAGE ---- */
+    .page-hero {
+      width: 100%; min-height: 100vh;
+      background: var(--bg);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 60px 0 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero-logo {
+      font-family: var(--font); font-size: 22px; font-weight: 700;
+      letter-spacing: -0.5px; margin-bottom: 56px;
+    }
+    .page-hero-logo .k { color: var(--blue); }
+    .page-hero-logo .rest { color: var(--text); }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 400;
+      color: var(--cyan); letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-headline {
+      font-size: 56px; font-weight: 700;
+      line-height: 1.08; letter-spacing: -1.5px;
+      color: var(--text); margin-bottom: 24px;
+    }
+    .hero-headline .accent { color: var(--blue); }
+    .hero-sub {
+      font-size: 17px; color: var(--muted); line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .hero-cta-block { display: flex; flex-direction: column; gap: 10px; }
+    .hero-cta-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue); color: #fff;
+      padding: 14px 26px; border-radius: 10px;
+      font-size: 15px; font-weight: 600;
+      width: fit-content;
+    }
+    .hero-cta-number {
+      font-family: var(--mono); font-size: 13px; color: var(--muted);
+    }
+    .hero-cta-number strong { color: var(--text); }
+    /* Visual box */
+    .hero-visual {
+      height: 380px; border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      position: relative; overflow: hidden;
+    }
+    .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px);
+    }
+    .orb-1 {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(37,99,235,0.4), transparent);
+      top: 20%; left: 20%;
+    }
+    .orb-2 {
+      width: 150px; height: 150px;
+      background: radial-gradient(circle, rgba(6,182,212,0.3), transparent);
+      bottom: 25%; right: 20%;
+    }
+    .hero-badge {
+      position: absolute; bottom: 20px; left: 20px;
+      background: rgba(10,10,10,0.8);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+    }
+    .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+    .badge-text { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+    .badge-text strong { color: var(--text); }
+    .hero-badge2 {
+      position: absolute; top: 20px; right: 20px;
+      background: rgba(10,10,10,0.8);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .badge2-label { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+    .badge2-value { font-size: 22px; font-weight: 700; color: var(--cyan); line-height: 1.2; }
+    .badge2-sub { font-size: 11px; color: var(--muted); }
+    /* Stats bar */
+    .stats-bar {
+      margin-top: 48px; padding-top: 40px;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 48px; flex-wrap: wrap;
+    }
+    .stat-item { display: flex; align-items: center; gap: 12px; }
+    .stat-num { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--text); }
+    .stat-label { font-size: 13px; color: var(--muted); }
+
+    /* ---- SERVICES PAGE ---- */
+    .page-services { background: var(--bg); }
+    .section-tag {
+      font-family: var(--mono); font-size: 11px; color: var(--cyan);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 38px; font-weight: 700;
+      letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 14px;
+    }
+    .section-sub { font-size: 16px; color: var(--muted); margin-bottom: 40px; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); /* 3 cols for print */
+      gap: 14px;
+    }
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 20px;
+    }
+    .service-icon {
+      width: 36px; height: 36px;
+      background: rgba(37,99,235,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px; color: var(--blue);
+    }
+    .service-title { font-size: 14px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+    .service-pain {
+      font-size: 11px; color: var(--cyan); font-family: var(--mono);
+      margin-bottom: 8px;
+    }
+    .service-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* ---- PROCESS PAGE ---- */
+    .page-process { background: var(--bg2); }
+    .timeline {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; position: relative; margin-top: 40px;
+    }
+    .timeline::before {
+      content: ''; position: absolute;
+      top: 28px; left: calc(12.5% + 20px); right: calc(12.5% + 20px);
+      height: 1px; background: linear-gradient(90deg, var(--blue), var(--cyan));
+    }
+    .timeline-step { text-align: center; position: relative; padding: 0 16px; }
+    .timeline-dot {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 1px solid rgba(37,99,235,0.4);
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      position: relative; z-index: 1;
+      color: var(--blue);
+    }
+    .timeline-num {
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      margin-bottom: 6px; letter-spacing: 1px;
+    }
+    .timeline-name { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .timeline-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .timeline-badge {
+      display: inline-block; margin-top: 10px;
+      font-family: var(--mono); font-size: 11px;
+      background: rgba(6,182,212,0.1); color: var(--cyan);
+      padding: 4px 10px; border-radius: 20px;
+      border: 1px solid rgba(6,182,212,0.2);
+    }
+
+    /* ---- WHY PAGE ---- */
+    .page-why { background: var(--bg); }
+    .why-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: start; margin-top: 40px;
+    }
+    .why-col-header {
+      font-size: 13px; font-family: var(--mono); letter-spacing: 1px;
+      text-transform: uppercase; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .why-col-left .why-col-header { color: var(--muted); }
+    .why-col-right .why-col-header { color: var(--cyan); }
+    .why-row {
+      display: flex; gap: 14px; padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .why-row:last-child { border-bottom: none; }
+    .why-icon { flex-shrink: 0; margin-top: 2px; }
+    .why-text strong { font-size: 14px; display: block; margin-bottom: 3px; }
+    .why-text span { font-size: 13px; color: var(--muted); }
+    .why-col-left .why-icon { color: #ef4444; }
+    .why-col-right .why-icon { color: #22c55e; }
+
+    /* ---- CTA PAGE ---- */
+    .page-cta {
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+    }
+    .cta-inner {
+      max-width: 680px;
+      padding: 72px 48px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(6,182,212,0.05));
+      border: 1px solid rgba(37,99,235,0.15);
+      border-radius: 20px; text-align: center;
+    }
+    .cta-headline {
+      font-size: 40px; font-weight: 700;
+      letter-spacing: -0.8px; margin-bottom: 16px; line-height: 1.15;
+    }
+    .cta-sub { font-size: 16px; color: var(--muted); margin-bottom: 36px; line-height: 1.7; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--blue); color: #fff;
+      padding: 16px 36px; border-radius: 12px;
+      font-size: 17px; font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .cta-number {
+      display: block; font-family: var(--mono); font-size: 15px;
+      color: var(--muted);
+    }
+    .cta-number strong { color: var(--text); }
+
+    /* ---- PRINT STYLES ---- */
+    @media print {
+      @page { size: A4 portrait; margin: 0; }
+      body { background: #0a0a0a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-break { break-before: page; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const Icon = ({ name, size = 20, ...props }) => {
+  const icons = {
+    whatsapp: <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>,
+    messageCircle: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+    fileText: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
+    trendingUp: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>,
+    brain: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M9.5 2a2.5 2.5 0 0 1 5 0c1.2.1 3.5 1 3.5 4.5 0 2-.5 3-1 4 .5.8 1 2 1 3.5 0 3-2 4-2 4h-8s-2-1-2-4c0-1.5.5-2.7 1-3.5-.5-1-1-2-1-4 0-3.5 2.3-4.4 3.5-4.5z"/></svg>,
+    zap: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+    eye: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
+    shield: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+    git: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>,
+    search: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+    gauge: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 2C6.5 2 2 6.5 2 12a10 10 0 0 0 10 10c5.5 0 10-4.5 10-10S17.5 2 12 2z"/><polyline points="12 6 12 12 16 14"/></svg>,
+    check: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" {...props}><polyline points="20 6 9 17 4 12"/></svg>,
+    close: <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" {...props}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+  };
+  return icons[name] || null;
+};
+
+function App() {
+  const services = [
+    { icon: 'messageCircle', title: 'Bots y agentes conversacionales', pain: 'Tu equipo responde lo mismo 50 veces al día.', desc: 'Agentes para WhatsApp, email y voz que resuelven consultas, califican leads y escalan solo cuando es necesario.' },
+    { icon: 'fileText', title: 'Procesamiento de documentos', pain: 'Tu contadora pasa 3 horas al día transcribiendo facturas.', desc: 'Extracción y registro automático de facturas, contratos e informes. Directo a tu ERP o sistema contable.' },
+    { icon: 'trendingUp', title: 'Inteligencia predictiva', pain: 'No sabes qué va a pasar con la demanda el próximo mes.', desc: 'Forecasting de demanda, scoring de leads, detección de anomalías y fraude con modelos entrenados en tus datos.' },
+    { icon: 'brain', title: 'Copilotos internos RAG', pain: 'El conocimiento de tu empresa está disperso y nadie lo usa.', desc: 'Convertimos tu Drive, Notion y Slack en un asistente que responde al instante con información precisa y actualizada.' },
+    { icon: 'git', title: 'Automatización clásica sin IA', pain: 'Tus sistemas no se hablan entre sí.', desc: 'Integraciones entre CRM, ERP, SII y ecommerce usando n8n y webhooks. Sin código, sin consultoras, sin esperas.' },
+    { icon: 'eye', title: 'IA con visión', pain: 'Revisar imágenes de producto toma horas cada semana.', desc: 'Análisis automático de imágenes de producto, inventario y generación de contenido visual a escala.' },
+    { icon: 'shield', title: 'IA soberana on-premise', pain: 'Tus datos no pueden salir del perímetro.', desc: 'Modelos instalados en tu infraestructura con cumplimiento de la Ley 21.719. Sin dependencia de APIs externas.' },
+  ];
+
+  const steps = [
+    { icon: 'search', num: '01', name: 'Diagnóstico', desc: 'Una sesión de trabajo para mapear procesos, identificar el mayor dolor y definir el alcance exacto del piloto.', badge: '1–2 días' },
+    { icon: 'zap', num: '02', name: 'Piloto', desc: 'Construimos la solución funcional sobre tus datos reales. Nada de demos, nada de sandbox.', badge: '2–4 semanas' },
+    { icon: 'gauge', num: '03', name: 'Medición', desc: 'Definimos métricas antes de empezar. Al final del piloto sabes exactamente cuánto tiempo y dinero se ahorra.', badge: 'Semana 4–5' },
+    { icon: 'trendingUp', num: '04', name: 'Escala', desc: 'Si los números cierran, expandimos. Si no, te decimos por qué y qué ajustar. Sin contratos de meses.', badge: 'Mes 2+' },
+  ];
+
+  const them = [
+    { title: 'Meses de descubrimiento', desc: 'Workshops de 3 meses antes de tocar una sola línea de código.' },
+    { title: 'Precio de consultoría grande', desc: 'Equipos de 8 personas con seniority de papel y costos de boutique.' },
+    { title: 'Stack legacy o propio', desc: 'Te amarran a su plataforma. Si te vas, pierdes todo.' },
+    { title: 'Decks, decks y más decks', desc: 'Entregables en PowerPoint que nadie lee y no mueven nada.' },
+  ];
+  const us = [
+    { title: 'Piloto en 2–4 semanas', desc: 'Diagnóstico rápido, priorización honesta, build desde el día 1.' },
+    { title: 'Precio de equipo interno', desc: 'Un equipo pequeño y senior que factura por resultado, no por hora.' },
+    { title: 'Stack moderno y abierto', desc: 'n8n, LangChain, modelos open-source. Tu stack, tu control.' },
+    { title: 'Cero PowerPoints', desc: 'Solo código funcionando, métricas y conversaciones en WhatsApp.' },
+  ];
+
+  return (
+    <div>
+      {/* PAGE 1: HERO */}
+      <div className="page-hero">
+        <div className="container">
+          <div className="page-hero-logo"><span className="k">K</span><span className="rest">orriente</span></div>
+          <div className="hero-grid">
+            <div>
+              <div className="hero-eyebrow">automatización · inteligencia · flujo</div>
+              <h1 className="hero-headline">
+                IA que funciona.<br/>
+                <span className="accent">Sin decks.</span><br/>
+                Sin esperar meses.
+              </h1>
+              <p className="hero-sub">
+                Implementamos automatización e inteligencia artificial en tu empresa en semanas, no meses. Sin consultoras caras, sin PowerPoints, sin transformación digital de fantasía.
+              </p>
+              <div className="hero-cta-block">
+                <div className="hero-cta-primary">
+                  <Icon name="whatsapp" size={18} />
+                  Hablemos por WhatsApp
+                </div>
+                <div className="hero-cta-number">wa.me/56998290823 · <strong>+56 9 9829 0823</strong></div>
+              </div>
+            </div>
+            <div className="hero-visual">
+              <div className="grid-bg"></div>
+              <div className="orb orb-1"></div>
+              <div className="orb orb-2"></div>
+              <div className="hero-badge">
+                <div className="badge-dot"></div>
+                <div className="badge-text"><strong>Piloto activo</strong> — Semana 3 de 4</div>
+              </div>
+              <div className="hero-badge2">
+                <div className="badge2-label">TIEMPO AHORRADO</div>
+                <div className="badge2-value">23h</div>
+                <div className="badge2-sub">esta semana · +18% vs ant.</div>
+              </div>
+            </div>
+          </div>
+          <div className="stats-bar">
+            {[
+              { num: '8 sem', label: 'tiempo promedio de piloto' },
+              { num: '3–10×', label: 'ROI en año 1' },
+              { num: '100%', label: 'proyectos con medición' },
+              { num: 'CL + LATAM', label: 'cobertura de operación' },
+            ].map((s, i) => (
+              <div key={i} className="stat-item">
+                <div className="stat-num">{s.num}</div>
+                <div className="stat-label">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* PAGE 2: SERVICES */}
+      <div className="page-services page-break" style={{padding: '64px 0'}}>
+        <div className="container">
+          <div className="section-tag">Servicios</div>
+          <h2 className="section-title">Problemas concretos. Soluciones que se miden.</h2>
+          <p className="section-sub">Siete áreas de implementación. Ningún PowerPoint incluido.</p>
+          <div className="services-grid">
+            {services.map((s, i) => (
+              <div key={i} className="service-card">
+                <div className="service-icon"><Icon name={s.icon} size={16} /></div>
+                <div className="service-title">{s.title}</div>
+                <div className="service-pain">{s.pain}</div>
+                <div className="service-desc">{s.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* PAGE 3: PROCESS + WHY */}
+      <div className="page-process page-break" style={{padding: '64px 0'}}>
+        <div className="container">
+          <div className="section-tag">Proceso</div>
+          <h2 className="section-title">De diagnóstico a resultado en menos de 8 semanas.</h2>
+          <p className="section-sub">Piloto funcionando o te devolvemos el dinero. Así de simple.</p>
+          <div className="timeline">
+            {steps.map((step, i) => (
+              <div key={i} className="timeline-step">
+                <div className="timeline-dot"><Icon name={step.icon} size={20} /></div>
+                <div className="timeline-num">PASO {step.num}</div>
+                <div className="timeline-name">{step.name}</div>
+                <div className="timeline-desc">{step.desc}</div>
+                <span className="timeline-badge">{step.badge}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="page-why page-break" style={{padding: '64px 0'}}>
+        <div className="container">
+          <div className="section-tag">Por qué Korriente</div>
+          <h2 className="section-title">No somos una consultora.<br/>Y eso es un feature.</h2>
+          <div className="why-grid">
+            <div className="why-col-left">
+              <div className="why-col-header">Consultoras grandes</div>
+              {them.map((row, i) => (
+                <div key={i} className="why-row">
+                  <div className="why-icon"><Icon name="close" size={16} /></div>
+                  <div className="why-text"><strong>{row.title}</strong><span>{row.desc}</span></div>
+                </div>
+              ))}
+            </div>
+            <div className="why-col-right">
+              <div className="why-col-header">Korriente</div>
+              {us.map((row, i) => (
+                <div key={i} className="why-row">
+                  <div className="why-icon"><Icon name="check" size={16} /></div>
+                  <div className="why-text"><strong>{row.title}</strong><span>{row.desc}</span></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* PAGE 4: CTA */}
+      <div className="page-cta page-break">
+        <div className="cta-inner">
+          <h2 className="cta-headline">¿Cuánto te cuesta<br/>no automatizar esto?</h2>
+          <p className="cta-sub">
+            Una conversación de 30 minutos para entender tu problema.<br/>
+            Sin compromiso, sin pitch, sin deck.
+          </p>
+          <div className="cta-btn">
+            <Icon name="whatsapp" size={22} />
+            Hablar con un humano ahora
+          </div>
+          <div className="cta-number">wa.me/56998290823 · <strong>+56 9 9829 0823</strong></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+// Auto-print after fonts and Babel are ready
+document.fonts.ready.then(() => {
+  setTimeout(() => window.print(), 500);
+});
+</script>
+</body>
+</html>
