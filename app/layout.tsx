@@ -19,12 +19,12 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   title: 'Korriente — automatización · inteligencia · flujo',
   description:
-    'Implementamos automatización e inteligencia artificial en tu empresa en semanas, no meses. Sin consultoras caras, sin PowerPoints, sin transformación digital de fantasía.',
+    'Automatizamos los procesos operacionales que más tiempo y plata te cuestan. Piloto en producción en 8 semanas, con métricas reales desde el día uno.',
   keywords: ['automatización', 'inteligencia artificial', 'IA', 'Chile', 'LATAM', 'n8n', 'LangChain'],
   openGraph: {
-    title: 'Korriente — IA que funciona. Sin decks. Sin esperar meses.',
+    title: 'Korriente — IA que funciona. Resultados medibles desde el día uno.',
     description:
-      'Automatización e IA para empresas en semanas, no meses. Sin consultoras, sin PowerPoints.',
+      'Automatizamos los procesos que más te cuestan. Piloto funcionando en 8 semanas, con retorno medido en pesos reales.',
     locale: 'es_CL',
     type: 'website',
   },
