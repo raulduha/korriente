@@ -57,13 +57,11 @@ export function Services() {
     <section id="services" className={styles.section}>
       <div className="container">
         <div className={`${styles.header} fade-in`} ref={headerRef}>
-          <div className={styles.tag}>Servicios</div>
+          <div className={styles.tag}>Lo que construimos</div>
           <h2 className={styles.title}>
-            Problemas concretos.
-            <br />
-            Soluciones que se miden.
+            Siete soluciones con retorno medible.
           </h2>
-          <p className={styles.sub}>Siete áreas de implementación. Ningún PowerPoint incluido.</p>
+          <p className={styles.sub}>Cada proyecto parte de un problema real de tu operación. No implementamos tecnología por implementar.</p>
         </div>
         <div className={styles.grid}>
           {services.map((s, i) => (

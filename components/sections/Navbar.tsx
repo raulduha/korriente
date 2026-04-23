@@ -16,8 +16,9 @@ export function Navbar() {
 
   const links = [
     { href: '#services', label: 'Servicios' },
-    { href: '#how', label: 'Cómo trabajamos' },
-    { href: '#why', label: 'Por qué Korriente' },
+    { href: '#how',      label: 'Proceso' },
+    { href: '#why',      label: 'Nosotros' },
+    { href: '#contact',  label: 'Contacto' },
   ];
 
   const handleLinkClick = () => setMenuOpen(false);

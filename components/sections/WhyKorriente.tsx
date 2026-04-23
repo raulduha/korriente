@@ -52,15 +52,16 @@ export function WhyKorriente() {
         <div className={`${styles.header} fade-in`} ref={headerRef}>
           <div className={styles.tag}>Por qué Korriente</div>
           <h2 className={styles.title}>
-            No somos una consultora.
-            <br />
-            Y eso es un feature.
+            Un equipo técnico, no una consultora.
           </h2>
+          <p className={styles.sub}>
+            La diferencia está en cómo trabajamos, qué entregamos, y a quién le pertenece el resultado.
+          </p>
         </div>
         <div className={styles.grid}>
           <div className={styles.col}>
             <FadeIn threshold={0.1}>
-              <div className={`${styles.colHeader} ${styles.colHeaderLeft}`}>Consultoras grandes</div>
+              <div className={`${styles.colHeader} ${styles.colHeaderLeft}`}>Consultoras tradicionales</div>
             </FadeIn>
             {them.map((row, i) => (
               <FadeIn key={i} delay={i * 0.05} threshold={0.05}>

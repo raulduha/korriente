@@ -4,7 +4,9 @@ import { SocialProof } from '@/components/sections/SocialProof';
 import { Services } from '@/components/sections/Services';
 import { HowWeWork } from '@/components/sections/HowWeWork';
 import { WhyKorriente } from '@/components/sections/WhyKorriente';
-import { CTA } from '@/components/sections/CTA';
+import { Demo } from '@/components/sections/Demo';
+import { Testimonials } from '@/components/sections/Testimonials';
+import { Contact } from '@/components/sections/Contact';
 import { Footer } from '@/components/sections/Footer';
 
 export default function Home() {
@@ -17,7 +19,9 @@ export default function Home() {
         <Services />
         <HowWeWork />
         <WhyKorriente />
-        <CTA />
+        <Demo />
+        <Testimonials />
+        <Contact />
       </main>
       <Footer />
     </>

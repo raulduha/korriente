@@ -2,6 +2,7 @@
 
 import styles from './HowWeWork.module.css';
 import { Icon } from '@/components/ui/Icon';
+import { FadeIn } from '@/components/ui/FadeIn';
 import { useFadeIn } from '@/lib/useFadeIn';
 
 const steps = [
@@ -9,35 +10,54 @@ const steps = [
     icon: 'search' as const,
     num: '01',
     name: 'Diagnóstico',
-    desc: 'Una sesión de trabajo para mapear procesos, identificar el mayor dolor y definir el alcance exacto del piloto.',
     badge: '1–2 días',
+    desc: 'Mapeamos tus procesos en una sesión de trabajo, identificamos el mayor dolor operacional y definimos el alcance exacto del piloto.',
+    detail: [
+      'Entrevistamos a los equipos que viven el problema a diario',
+      'Cuantificamos el tiempo y costo actual del proceso',
+      'Priorizamos la solución con mayor retorno esperado',
+    ],
   },
   {
     icon: 'zap' as const,
     num: '02',
     name: 'Piloto',
-    desc: 'Construimos la solución funcional sobre tus datos reales. Nada de demos, nada de sandbox.',
     badge: '2–4 semanas',
+    desc: 'Construimos la solución funcional sobre tus datos reales. No hacemos demos genéricos ni sandboxes: el piloto opera en tu entorno desde el día uno.',
+    detail: [
+      'Conexión directa con tus sistemas (CRM, ERP, Drive, etc.)',
+      'Iteraciones semanales con tu equipo para ajustar el comportamiento',
+      'Entrega de código limpio y documentado — tuyo, sin dependencias',
+    ],
   },
   {
     icon: 'gauge' as const,
     num: '03',
     name: 'Medición',
-    desc: 'Definimos métricas antes de empezar. Al final del piloto sabes exactamente cuánto tiempo y dinero se ahorra.',
     badge: 'Semana 4–5',
+    desc: 'Definimos los indicadores de éxito antes de empezar. Al terminar el piloto tienes un informe con horas ahorradas, errores eliminados y ahorro en pesos.',
+    detail: [
+      'Dashboard con métricas en tiempo real durante el piloto',
+      'Comparación directa con el estado anterior (línea base)',
+      'Informe ejecutivo con retorno calculado sobre la inversión',
+    ],
   },
   {
     icon: 'trendingUp' as const,
     num: '04',
     name: 'Escala',
-    desc: 'Si los números cierran, expandimos. Si no, te decimos por qué y qué ajustar. Sin contratos de meses.',
     badge: 'Mes 2+',
+    desc: 'Si los números justifican expandir, lo hacemos. Si hay algo que ajustar, te decimos exactamente qué y cómo. Sin contratos de largo plazo ni lock-in.',
+    detail: [
+      'Expansión a nuevas áreas o volúmenes mayores',
+      'Traspaso de conocimiento a tu equipo técnico interno',
+      'Soporte continuo o transferencia total según tu preferencia',
+    ],
   },
 ];
 
 export function HowWeWork() {
   const headerRef = useFadeIn();
-  const timelineRef = useFadeIn(0.1);
 
   return (
     <section id="how" className={styles.section}>
@@ -45,23 +65,36 @@ export function HowWeWork() {
         <div className={`${styles.header} fade-in`} ref={headerRef}>
           <div className={styles.tag}>Proceso</div>
           <h2 className={styles.title}>
-            De diagnóstico a resultado
+            Del problema al resultado
             <br />
-            en menos de 8 semanas.
+            <span className={styles.accent}>en 8 semanas.</span>
           </h2>
-          <p className={styles.sub}>Piloto funcionando o te devolvemos el dinero. Así de simple.</p>
+          <p className={styles.sub}>
+            Cuatro etapas claras. Cada una con entregables concretos y fechas definidas desde el inicio.
+          </p>
         </div>
-        <div className={`${styles.timeline} fade-in`} ref={timelineRef}>
+
+        <div className={styles.grid}>
           {steps.map((step, i) => (
-            <div key={i} className={styles.step}>
-              <div className={styles.dot}>
-                <Icon name={step.icon} size={20} />
+            <FadeIn key={i} delay={i * 0.08} threshold={0.06}>
+              <div className={styles.card}>
+                <div className={styles.watermark}>{step.num}</div>
+                <div className={styles.icon}>
+                  <Icon name={step.icon} size={22} />
+                </div>
+                <div className={styles.badge}>{step.badge}</div>
+                <div className={styles.stepName}>{step.name}</div>
+                <p className={styles.desc}>{step.desc}</p>
+                <div className={styles.detail}>
+                  {step.detail.map((d, j) => (
+                    <div key={j} className={styles.detailItem}>
+                      <div className={styles.detailDot} />
+                      <div className={styles.detailText}>{d}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className={styles.stepNum}>PASO {step.num}</div>
-              <div className={styles.stepName}>{step.name}</div>
-              <div className={styles.stepDesc}>{step.desc}</div>
-              <span className={styles.badge}>{step.badge}</span>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </div>

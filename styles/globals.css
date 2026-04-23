@@ -8,8 +8,10 @@
   --blue-dim: #1d4ed8;
   --cyan: #06b6d4;
   --text: #f0f0f0;
-  --muted: #888;
+  --muted: #999;
+  --muted2: #bbb;
   --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.12);
   --card-bg: rgba(255, 255, 255, 0.03);
 
   /* Typography — variables are injected by next/font via html className */
@@ -72,32 +74,46 @@ body {
   transform: none;
 }
 
-.fade-in-delay-1 {
-  transition-delay: 0.1s;
+.fade-in-delay-1 { transition-delay: 0.1s; }
+.fade-in-delay-2 { transition-delay: 0.2s; }
+.fade-in-delay-3 { transition-delay: 0.3s; }
+.fade-in-delay-4 { transition-delay: 0.4s; }
+.fade-in-delay-5 { transition-delay: 0.5s; }
+.fade-in-delay-6 { transition-delay: 0.6s; }
+.fade-in-delay-7 { transition-delay: 0.7s; }
+
+.delay-1 { transition-delay: 0.08s; }
+.delay-2 { transition-delay: 0.16s; }
+.delay-3 { transition-delay: 0.24s; }
+.delay-4 { transition-delay: 0.32s; }
+.delay-5 { transition-delay: 0.40s; }
+.delay-6 { transition-delay: 0.48s; }
+.delay-7 { transition-delay: 0.56s; }
+
+/* Shared section styles */
+.section-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
 
-.fade-in-delay-2 {
-  transition-delay: 0.2s;
+.section-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.12;
 }
 
-.fade-in-delay-3 {
-  transition-delay: 0.3s;
-}
-
-.fade-in-delay-4 {
-  transition-delay: 0.4s;
-}
-
-.fade-in-delay-5 {
-  transition-delay: 0.5s;
-}
-
-.fade-in-delay-6 {
-  transition-delay: 0.6s;
-}
-
-.fade-in-delay-7 {
-  transition-delay: 0.7s;
+.section-sub {
+  font-size: 17px;
+  color: var(--muted2);
+  margin-top: 14px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Layout */

@@ -16,29 +16,26 @@ export function Hero() {
               className={`${styles.headline} fade-in visible`}
               style={{ transitionDelay: '0.1s' }}
             >
-              IA que funciona.
-              <br />
-              <span className={styles.accent}>Sin decks.</span>
-              <br />
-              Sin esperar meses.
+              Automatización real.<br />
+              Resultados <span className={styles.accent}>medibles.</span><br />
+              En semanas.
             </h1>
             <p className={`${styles.sub} fade-in visible`} style={{ transitionDelay: '0.2s' }}>
-              Implementamos automatización e inteligencia artificial en tu empresa en semanas, no
-              meses. Sin consultoras caras, sin PowerPoints, sin transformación digital de fantasía.
+              Somos el equipo técnico que tu empresa necesita pero no puede contratar. Implementamos
+              IA con tus datos reales, medimos cada peso ahorrado, y entregamos resultados en
+              semanas — no en meses.
             </p>
             <div className={`${styles.actions} fade-in visible`} style={{ transitionDelay: '0.3s' }}>
+              <a href="#how" className={styles.btnPrimary}>
+                Ver cómo funciona <Icon name="arrowRight" size={16} />
+              </a>
               <a
                 href="https://wa.me/56998290823"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={styles.btnPrimary}
+                className={styles.btnSecondary}
               >
-                <Icon name="whatsapp" size={18} />
-                Hablemos por WhatsApp
-              </a>
-              <a href="#services" className={styles.btnSecondary}>
-                Ver servicios
-                <Icon name="arrowRight" size={16} />
+                <Icon name="whatsapp" size={16} /> Escribir por WhatsApp
               </a>
             </div>
           </div>

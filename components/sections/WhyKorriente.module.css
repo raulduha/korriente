@@ -23,6 +23,15 @@
   line-height: 1.15;
 }
 
+.sub {
+  font-size: 17px;
+  color: var(--muted);
+  margin-top: 14px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -71,11 +80,11 @@
 }
 
 .iconBad {
-  color: #ef4444;
+  color: rgba(37, 99, 235, 0.5);
 }
 
 .iconGood {
-  color: #22c55e;
+  color: var(--cyan);
 }
 
 .rowText {
@@ -85,7 +94,7 @@
 }
 
 .rowText strong {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text);
 }
 

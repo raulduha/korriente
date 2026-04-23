@@ -39,9 +39,9 @@
 }
 
 .sub {
-  font-size: 18px;
-  color: var(--muted);
-  line-height: 1.7;
+  font-size: 17px;
+  color: var(--muted2);
+  line-height: 1.75;
   margin-bottom: 36px;
   max-width: 460px;
 }
