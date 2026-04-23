@@ -20,55 +20,16 @@ export default function OGImage() {
           fontFamily: 'Arial Black, Arial, sans-serif',
         }}
       >
-        {/* Logo badge */}
-        <div
+        <span
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 120,
-            height: 120,
-            background: '#111111',
-            borderRadius: 24,
-            border: '2px solid #1e3a6e',
-            marginBottom: 36,
-          }}
-        >
-          <span
-            style={{
-              fontSize: 80,
-              fontWeight: 900,
-              color: '#2563eb',
-              lineHeight: 1,
-            }}
-          >
-            K
-          </span>
-        </div>
-
-        {/* Brand name */}
-        <div
-          style={{
-            fontSize: 72,
+            fontSize: 320,
             fontWeight: 900,
-            color: '#ffffff',
-            letterSpacing: '-3px',
-            marginBottom: 20,
+            color: '#2563eb',
+            lineHeight: 1,
           }}
         >
-          Korriente
-        </div>
-
-        {/* Tagline */}
-        <div
-          style={{
-            fontSize: 28,
-            color: '#06b6d4',
-            letterSpacing: 1,
-          }}
-        >
-          automatización · inteligencia · flujo
-        </div>
+          K
+        </span>
       </div>
     ),
     { ...size }
