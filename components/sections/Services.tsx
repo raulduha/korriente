@@ -1,52 +1,55 @@
 'use client';
 
 import styles from './Services.module.css';
-import { Icon } from '@/components/ui/Icon';
 import { FadeIn } from '@/components/ui/FadeIn';
 import { useFadeIn } from '@/lib/useFadeIn';
 
-const services = [
+const products = [
   {
-    icon: 'messageCircle' as const,
-    title: 'Bots y agentes conversacionales',
-    pain: 'Tu equipo responde lo mismo 50 veces al día.',
-    desc: 'Agentes para WhatsApp, email y voz que resuelven consultas, califican leads y escalan solo cuando es necesario.',
+    num: '01',
+    name: 'Diagnóstico Express',
+    forWho: 'Para empresas que saben que tienen que usar IA pero no saben por dónde.',
+    duration: '3–5 días hábiles',
+    price: 'Desde CLP 800.000',
+    priceNote: 'Primeros 2 proyectos gratis para casos de estudio',
+    deliverables: [
+      '3 oportunidades de IA priorizadas por ROI',
+      'Roadmap de implementación a 90 días',
+      'Estimación de inversión y retorno',
+      'Sesión de presentación de hallazgos (1.5h)',
+    ],
+    cta: 'Conversemos',
   },
   {
-    icon: 'fileText' as const,
-    title: 'Procesamiento de documentos',
-    pain: 'Tu contadora pasa 3 horas al día transcribiendo facturas.',
-    desc: 'Extracción y registro automático de facturas, contratos e informes. Directo a tu ERP o sistema contable.',
+    num: '02',
+    name: 'Implementación',
+    forWho: 'Para quienes ya tienen el diagnóstico y quieren ejecutar.',
+    duration: '4–12 semanas',
+    price: 'Desde USD 6.000',
+    priceNote: 'Anclado en UF o USD para proyectos largos',
+    deliverables: [
+      'Sistema funcionando con tus datos reales',
+      'Integraciones con tus herramientas actuales',
+      'Capacitación al equipo operativo',
+      '30 días de soporte post go-live',
+    ],
+    cta: 'Conversemos',
+    featured: true,
   },
   {
-    icon: 'trendingUp' as const,
-    title: 'Inteligencia predictiva',
-    pain: 'No sabes qué va a pasar con la demanda el próximo mes.',
-    desc: 'Forecasting de demanda, scoring de leads, detección de anomalías y fraude con modelos entrenados en tus datos.',
-  },
-  {
-    icon: 'brain' as const,
-    title: 'Copilotos internos RAG',
-    pain: 'El conocimiento de tu empresa está disperso y nadie lo usa.',
-    desc: 'Convertimos tu Drive, Notion y Slack en un asistente que responde al instante con información precisa y actualizada.',
-  },
-  {
-    icon: 'git' as const,
-    title: 'Automatización clásica sin IA',
-    pain: 'Tus sistemas no se hablan entre sí.',
-    desc: 'Integraciones entre CRM, ERP, SII y ecommerce usando n8n y webhooks. Sin código, sin consultoras, sin esperas.',
-  },
-  {
-    icon: 'eye' as const,
-    title: 'IA con visión',
-    pain: 'Revisar imágenes de producto toma horas cada semana.',
-    desc: 'Análisis automático de imágenes de producto, inventario y generación de contenido visual a escala.',
-  },
-  {
-    icon: 'shield' as const,
-    title: 'IA soberana on-premise',
-    pain: 'Tus datos no pueden salir del perímetro.',
-    desc: 'Modelos instalados en tu infraestructura con cumplimiento de la Ley 21.719. Sin dependencia de APIs externas.',
+    num: '03',
+    name: 'Retainer mensual',
+    forWho: 'Para clientes con implementación viva que necesitan evolución continua.',
+    duration: 'Contrato mensual, renovación trimestral',
+    price: 'Desde CLP 1.500.000/mes',
+    priceNote: 'Con SLA definido y horas reservadas',
+    deliverables: [
+      'Mejora continua del sistema implementado',
+      'Mantención y monitoreo proactivo',
+      'Nuevas iteraciones según aprendizajes',
+      'Acceso prioritario al equipo Korriente',
+    ],
+    cta: 'Conversemos',
   },
 ];
 
@@ -54,25 +57,56 @@ export function Services() {
   const headerRef = useFadeIn();
 
   return (
-    <section id="services" className={styles.section}>
+    <section id="servicios" className={styles.section}>
       <div className="container">
         <div className={`${styles.header} fade-in`} ref={headerRef}>
-          <div className={styles.tag}>Lo que construimos</div>
+          <div className={styles.tag}>Servicios</div>
           <h2 className={styles.title}>
-            Siete soluciones con retorno medible.
+            Tres productos. Sin letra chica.
           </h2>
-          <p className={styles.sub}>Cada proyecto parte de un problema real de tu operación. No implementamos tecnología por implementar.</p>
+          <p className={styles.sub}>
+            Cada uno alimenta al siguiente. El diagnóstico es el comienzo, no un lead magnet.
+          </p>
         </div>
+
         <div className={styles.grid}>
-          {services.map((s, i) => (
-            <FadeIn key={i} delay={Math.min((i % 3) * 0.1, 0.3)} threshold={0.05}>
-              <div className={styles.card}>
-                <div className={styles.icon}>
-                  <Icon name={s.icon} size={18} />
+          {products.map((p, i) => (
+            <FadeIn key={i} delay={i * 0.1} threshold={0.05}>
+              <div className={`${styles.card} ${p.featured ? styles.cardFeatured : ''}`}>
+                {p.featured && (
+                  <div className={styles.featuredBadge}>Más solicitado</div>
+                )}
+                <div className={styles.cardTop}>
+                  <span className={styles.cardNum}>{p.num}</span>
+                  <h3 className={styles.cardName}>{p.name}</h3>
+                  <p className={styles.cardForWho}>{p.forWho}</p>
                 </div>
-                <div className={styles.cardTitle}>{s.title}</div>
-                <div className={styles.pain}>{s.pain}</div>
-                <div className={styles.desc}>{s.desc}</div>
+
+                <div className={styles.cardMid}>
+                  <div className={styles.meta}>
+                    <div className={styles.metaItem}>
+                      <span className={styles.metaLabel}>Duración</span>
+                      <span className={styles.metaValue}>{p.duration}</span>
+                    </div>
+                    <div className={styles.metaItem}>
+                      <span className={styles.metaLabel}>Inversión</span>
+                      <span className={styles.metaValue}>{p.price}</span>
+                      <span className={styles.metaNote}>{p.priceNote}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.cardBottom}>
+                  <div className={styles.deliverablesLabel}>Qué incluye</div>
+                  <ul className={styles.deliverables}>
+                    {p.deliverables.map((d, j) => (
+                      <li key={j}>{d}</li>
+                    ))}
+                  </ul>
+                  <a href="#contacto" className={`${styles.cta} ${p.featured ? styles.ctaFeatured : ''}`}>
+                    {p.cta}
+                  </a>
+                </div>
               </div>
             </FadeIn>
           ))}

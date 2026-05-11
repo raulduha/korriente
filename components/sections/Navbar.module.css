@@ -10,7 +10,7 @@
 }
 
 .scrolled {
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -32,7 +32,7 @@
 }
 
 .logo:hover {
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 .k {
@@ -46,7 +46,7 @@
 .links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 28px;
 }
 
 .links a {
@@ -61,13 +61,12 @@
   color: var(--text);
 }
 
-.btnWa {
-  display: flex;
+.btnCta {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: var(--blue);
+  background: var(--accent) !important;
   color: #fff !important;
-  padding: 8px 18px;
+  padding: 9px 20px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -76,10 +75,10 @@
   white-space: nowrap;
 }
 
-.btnWa:hover {
-  background: var(--blue-dim) !important;
-  transform: translateY(-1px);
+.btnCta:hover {
+  background: var(--accent-hover) !important;
   color: #fff !important;
+  transform: translateY(-1px);
 }
 
 .toggle {
@@ -93,7 +92,7 @@
 }
 
 .toggle:hover {
-  color: var(--cyan);
+  color: var(--blue);
 }
 
 @media (max-width: 768px) {
@@ -105,7 +104,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(10, 10, 10, 0.97);
+    background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 20px 24px;

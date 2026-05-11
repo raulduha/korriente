@@ -1,5 +1,4 @@
 import styles from './Footer.module.css';
-import { Icon } from '@/components/ui/Icon';
 
 export function Footer() {
   return (
@@ -11,25 +10,25 @@ export function Footer() {
               <span className={styles.k}>K</span>
               <span className={styles.rest}>orriente</span>
             </div>
-            <div className={styles.tagline}>automatización · inteligencia · flujo</div>
+            <div className={styles.tagline}>consultoría b2b de ia · santiago, chile</div>
           </div>
           <div className={styles.right}>
-            <a href="#services" className={styles.link}>
-              Servicios
-            </a>
-            <a href="#how" className={styles.link}>
-              Proceso
-            </a>
+            <a href="#como" className={styles.link}>Cómo trabajamos</a>
+            <a href="#servicios" className={styles.link}>Servicios</a>
+            <a href="#sectores" className={styles.link}>Sectores</a>
+            <a href="#contacto" className={styles.link}>Contacto</a>
             <a
               href="https://wa.me/56998290823"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.wa}
             >
-              <Icon name="whatsapp" size={16} />
-              +56 9 9829 0823
+              WhatsApp
             </a>
           </div>
+        </div>
+        <div className={styles.bottom}>
+          <span className={styles.copy}>© 2026 Korriente SpA · hola@korriente.cl</span>
         </div>
       </div>
     </footer>

@@ -17,14 +17,17 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Korriente — automatización · inteligencia · flujo',
+  title: 'Korriente — Consultoría de IA para empresas chilenas',
   description:
-    'Automatizamos los procesos operacionales que más tiempo y plata te cuestan. Piloto en producción en 8 semanas, con métricas reales desde el día uno.',
-  keywords: ['automatización', 'inteligencia artificial', 'IA', 'Chile', 'LATAM', 'n8n', 'LangChain'],
+    'Auditamos tu operación, identificamos dónde la IA recupera tiempo y plata medible, e implementamos solo lo que tiene ROI. Santiago, Chile.',
+  keywords: [
+    'consultoría IA', 'inteligencia artificial', 'diagnóstico IA', 'automatización',
+    'Chile', 'LATAM', 'IA on-premise', 'Mercado Público', 'seguros IA',
+  ],
   openGraph: {
-    title: 'Korriente — IA que funciona. Resultados medibles desde el día uno.',
+    title: 'Korriente — Diagnóstico de IA para tu empresa, no demos de chatbots.',
     description:
-      'Automatizamos los procesos que más te cuestan. Piloto funcionando en 8 semanas, con retorno medido en pesos reales.',
+      'Auditamos tu operación, identificamos dónde la IA recupera tiempo y plata medible, e implementamos solo lo que tiene ROI.',
     locale: 'es_CL',
     type: 'website',
   },

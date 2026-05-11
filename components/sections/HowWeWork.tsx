@@ -1,98 +1,100 @@
 'use client';
 
+import { useState } from 'react';
 import styles from './HowWeWork.module.css';
-import { Icon } from '@/components/ui/Icon';
 import { FadeIn } from '@/components/ui/FadeIn';
 import { useFadeIn } from '@/lib/useFadeIn';
 
-const steps = [
+const layers = [
   {
-    icon: 'search' as const,
     num: '01',
-    name: 'Diagnóstico',
-    badge: '1–2 días',
-    desc: 'Mapeamos tus procesos en una sesión de trabajo, identificamos el mayor dolor operacional y definimos el alcance exacto del piloto.',
-    detail: [
-      'Entrevistamos a los equipos que viven el problema a diario',
-      'Cuantificamos el tiempo y costo actual del proceso',
-      'Priorizamos la solución con mayor retorno esperado',
+    name: 'Sistemas',
+    tagline: '¿Dónde vive tu información?',
+    desc: 'Antes de tocar IA, mapeamos tus sistemas: qué software usas, cómo fluye la data, cuántas versiones de la verdad existen. El 70% de las empresas tienen el problema acá.',
+    bullets: [
+      '¿Hay una fuente única de verdad o cinco versiones que no calzan?',
+      '¿Cuántos sistemas no se hablan? (Defontana, Bsale, Buk, Excel, WhatsApp de ops)',
+      '¿Existen datos suficientes para contextualizar una IA? Si no, primero los limpiamos.',
     ],
   },
   {
-    icon: 'zap' as const,
     num: '02',
-    name: 'Piloto',
-    badge: '2–4 semanas',
-    desc: 'Construimos la solución funcional sobre tus datos reales. No hacemos demos genéricos ni sandboxes: el piloto opera en tu entorno desde el día uno.',
-    detail: [
-      'Conexión directa con tus sistemas (CRM, ERP, Drive, etc.)',
-      'Iteraciones semanales con tu equipo para ajustar el comportamiento',
-      'Entrega de código limpio y documentado — tuyo, sin dependencias',
+    name: 'Equipo',
+    tagline: '¿Cómo trabaja tu gente realmente?',
+    desc: 'Entrevistamos a los operativos, no a los gerentes. El workaround que nadie documenta pero todo el mundo hace revela más que cualquier PowerPoint de procesos.',
+    bullets: [
+      '¿Qué hábitos paralelos tienen para sobrevivir? (planillas, grupos no oficiales, archivos personales)',
+      '¿Quién es el cuello de botella humano que todos consultan?',
+      '¿Qué hacen 10 veces al día y odian? Ahí está el primer piloto.',
     ],
   },
   {
-    icon: 'gauge' as const,
     num: '03',
-    name: 'Medición',
-    badge: 'Semana 4–5',
-    desc: 'Definimos los indicadores de éxito antes de empezar. Al terminar el piloto tienes un informe con horas ahorradas, errores eliminados y ahorro en pesos.',
-    detail: [
-      'Dashboard con métricas en tiempo real durante el piloto',
-      'Comparación directa con el estado anterior (línea base)',
-      'Informe ejecutivo con retorno calculado sobre la inversión',
+    name: 'IA',
+    tagline: 'Solo cuando las bases están.',
+    desc: '"La IA es gasolina. Échala en un buen fuego y obtienes eficiencia enorme. Échala en un mal fuego y solo quemas plata más rápido." Solo llegamos acá cuando las capas 1 y 2 están ordenadas.',
+    bullets: [
+      'En 70% de los casos el primer valor viene de ordenar datos (capa 1), no de construir un agente.',
+      'En 20% el problema es capacitar al equipo (capa 2), no automatizar.',
+      'Solo en 10% el problema real es construir el agente. Y aún así, lo cobras como si lo fuera.',
     ],
-  },
-  {
-    icon: 'trendingUp' as const,
-    num: '04',
-    name: 'Escala',
-    badge: 'Mes 2+',
-    desc: 'Si los números justifican expandir, lo hacemos. Si hay algo que ajustar, te decimos exactamente qué y cómo. Sin contratos de largo plazo ni lock-in.',
-    detail: [
-      'Expansión a nuevas áreas o volúmenes mayores',
-      'Traspaso de conocimiento a tu equipo técnico interno',
-      'Soporte continuo o transferencia total según tu preferencia',
-    ],
+    warning: true,
   },
 ];
 
 export function HowWeWork() {
   const headerRef = useFadeIn();
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="how" className={styles.section}>
+    <section id="como" className={styles.section}>
       <div className="container">
         <div className={`${styles.header} fade-in`} ref={headerRef}>
-          <div className={styles.tag}>Proceso</div>
+          <div className={styles.tag}>Marco de trabajo</div>
           <h2 className={styles.title}>
-            Del problema al resultado
+            Las 3 capas de toda empresa.
             <br />
-            <span className={styles.accent}>en 8 semanas.</span>
+            <span className={styles.accent}>Nunca empieces por la 3.</span>
           </h2>
           <p className={styles.sub}>
-            Cuatro etapas claras. Cada una con entregables concretos y fechas definidas desde el inicio.
+            Todo proyecto de IA que fracasa lo hace porque saltó directamente a construir
+            sin entender las capas anteriores.
           </p>
         </div>
 
-        <div className={styles.grid}>
-          {steps.map((step, i) => (
-            <FadeIn key={i} delay={i * 0.08} threshold={0.06}>
-              <div className={styles.card}>
-                <div className={styles.watermark}>{step.num}</div>
-                <div className={styles.icon}>
-                  <Icon name={step.icon} size={22} />
-                </div>
-                <div className={styles.badge}>{step.badge}</div>
-                <div className={styles.stepName}>{step.name}</div>
-                <p className={styles.desc}>{step.desc}</p>
-                <div className={styles.detail}>
-                  {step.detail.map((d, j) => (
-                    <div key={j} className={styles.detailItem}>
-                      <div className={styles.detailDot} />
-                      <div className={styles.detailText}>{d}</div>
+        <div className={styles.layers}>
+          {layers.map((layer, i) => (
+            <FadeIn key={i} delay={i * 0.1} threshold={0.05}>
+              <div
+                className={`${styles.layer} ${open === i ? styles.layerOpen : ''} ${layer.warning ? styles.layerWarning : ''}`}
+                onClick={() => setOpen(open === i ? null : i)}
+              >
+                <div className={styles.layerHeader}>
+                  <div className={styles.layerLeft}>
+                    <span className={styles.layerNum}>{layer.num}</span>
+                    <div>
+                      <div className={styles.layerName}>{layer.name}</div>
+                      <div className={styles.layerTagline}>{layer.tagline}</div>
                     </div>
-                  ))}
+                  </div>
+                  <div className={`${styles.chevron} ${open === i ? styles.chevronOpen : ''}`}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5"
+                        strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
                 </div>
+
+                {open === i && (
+                  <div className={styles.layerBody}>
+                    <p className={styles.layerDesc}>{layer.desc}</p>
+                    <ul className={styles.layerBullets}>
+                      {layer.bullets.map((b, j) => (
+                        <li key={j}>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             </FadeIn>
           ))}

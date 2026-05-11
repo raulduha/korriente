@@ -15,10 +15,10 @@ export function Navbar() {
   }, []);
 
   const links = [
-    { href: '#services', label: 'Servicios' },
-    { href: '#how',      label: 'Proceso' },
-    { href: '#why',      label: 'Nosotros' },
-    { href: '#contact',  label: 'Contacto' },
+    { href: '#como',      label: 'Cómo trabajamos' },
+    { href: '#servicios', label: 'Servicios' },
+    { href: '#sectores',  label: 'Sectores' },
+    { href: '#contacto',  label: 'Contacto' },
   ];
 
   const handleLinkClick = () => setMenuOpen(false);
@@ -39,14 +39,11 @@ export function Navbar() {
               </a>
             ))}
             <a
-              href="https://wa.me/56998290823"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.btnWa}
+              href="#contacto"
+              className={styles.btnCta}
               onClick={handleLinkClick}
             >
-              <Icon name="whatsapp" size={16} />
-              WhatsApp
+              Agendar diagnóstico
             </a>
           </div>
 

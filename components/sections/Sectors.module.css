@@ -1,0 +1,157 @@
+.section {
+  background: var(--bg2);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--blue);
+  opacity: 0.65;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.12;
+  color: var(--text);
+}
+
+.sub {
+  font-size: 17px;
+  color: var(--muted);
+  margin-top: 14px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  border-color: rgba(31, 78, 121, 0.3);
+  box-shadow: 0 6px 24px rgba(31, 78, 121, 0.07);
+  transform: translateY(-3px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.iconWrap {
+  font-size: 24px;
+  color: var(--blue);
+  opacity: 0.6;
+  flex-shrink: 0;
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.cardName {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.cardSub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.blockLabel {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted2);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.blockText {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+.blockOpp {
+  background: rgba(31, 78, 121, 0.04);
+  border-radius: 10px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--blue);
+  margin: 0 -4px;
+}
+
+.blockOpp .blockLabel {
+  color: var(--blue);
+  opacity: 0.65;
+}
+
+.blockOpp .blockText {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.tag2 {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--blue);
+  background: rgba(31, 78, 121, 0.07);
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    text-align: left;
+  }
+
+  .sub {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
