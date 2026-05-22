@@ -10,8 +10,6 @@ const products = [
     name: 'Diagnóstico Express',
     forWho: 'Para empresas que saben que tienen que usar IA pero no saben por dónde.',
     duration: '3–5 días hábiles',
-    price: 'Desde CLP 800.000',
-    priceNote: 'Primeros 2 proyectos gratis para casos de estudio',
     deliverables: [
       '3 oportunidades de IA priorizadas por ROI',
       'Roadmap de implementación a 90 días',
@@ -25,8 +23,6 @@ const products = [
     name: 'Implementación',
     forWho: 'Para quienes ya tienen el diagnóstico y quieren ejecutar.',
     duration: '4–12 semanas',
-    price: 'Desde USD 6.000',
-    priceNote: 'Anclado en UF o USD para proyectos largos',
     deliverables: [
       'Sistema funcionando con tus datos reales',
       'Integraciones con tus herramientas actuales',
@@ -41,8 +37,6 @@ const products = [
     name: 'Retainer mensual',
     forWho: 'Para clientes con implementación viva que necesitan evolución continua.',
     duration: 'Contrato mensual, renovación trimestral',
-    price: 'Desde CLP 1.500.000/mes',
-    priceNote: 'Con SLA definido y horas reservadas',
     deliverables: [
       'Mejora continua del sistema implementado',
       'Mantención y monitoreo proactivo',
@@ -87,11 +81,6 @@ export function Services() {
                     <div className={styles.metaItem}>
                       <span className={styles.metaLabel}>Duración</span>
                       <span className={styles.metaValue}>{p.duration}</span>
-                    </div>
-                    <div className={styles.metaItem}>
-                      <span className={styles.metaLabel}>Inversión</span>
-                      <span className={styles.metaValue}>{p.price}</span>
-                      <span className={styles.metaNote}>{p.priceNote}</span>
                     </div>
                   </div>
                 </div>

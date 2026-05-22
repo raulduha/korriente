@@ -69,20 +69,6 @@ export function Contact() {
                   <div className={styles.itemValue}>+56 9 9829 0823</div>
                 </div>
               </a>
-              <a
-                href="https://linkedin.com/company/korriente"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.item}
-              >
-                <div className={styles.itemIcon}>
-                  <Icon name="linkedin" size={17} />
-                </div>
-                <div>
-                  <div className={styles.itemLabel}>LinkedIn</div>
-                  <div className={styles.itemValue}>linkedin.com/company/korriente</div>
-                </div>
-              </a>
               <div className={styles.item}>
                 <div className={styles.itemIcon}>
                   <Icon name="mapPin" size={17} />

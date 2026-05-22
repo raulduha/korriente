@@ -6,28 +6,25 @@ import { useFadeIn } from '@/lib/useFadeIn';
 
 const sectors = [
   {
-    icon: '◈',
-    name: 'Seguros',
-    subtitle: 'Corredoras y liquidadoras',
-    pain: 'Tiempo de liquidación de siniestros: 21+ días en promedio. Documentos por email, fotos por WhatsApp, peritos sin sistema unificado.',
-    opportunity: 'De 21 a 3 días de ciclo de liquidación es un resultado real, medible y que el cliente paga bien.',
-    tags: ['Siniestros', 'Pólizas', 'Liquidadores'],
+    icon: '◆',
+    name: 'Operaciones con alta carga documental',
+    subtitle: 'Inspecciones, contratos, reportes regulatorios',
+    pain: 'Cada operación genera documentos que alguien tiene que leer, clasificar y traspasar. El error humano es inevitable y el tiempo perdido, medible.',
+    tags: ['Compliance', 'Trazabilidad', 'Automatización'],
   },
   {
-    icon: '◉',
-    name: 'Servicios profesionales',
-    subtitle: 'Legal, contable, ingeniería',
-    pain: 'Estudios jurídicos buscando jurisprudencia a mano. Contadores conciliando bancos en Excel. Ingenieros revisando bases de licitaciones línea por línea.',
-    opportunity: 'Procesos repetibles, propietarios que deciden rápido, alta tolerancia al pago. Ciclo de venta corto.',
-    tags: ['Legal', 'Contabilidad', 'Ingeniería'],
+    icon: '◆',
+    name: 'Coordinación entre múltiples equipos o partes',
+    subtitle: 'Aprobaciones lentas, información dispersa',
+    pain: 'La información vive en silos. Correos, planillas y sistemas que no se hablan entre sí generan reprocesos y decisiones tardías.',
+    tags: ['Workflows', 'Integración', 'Visibilidad'],
   },
   {
-    icon: '◎',
-    name: 'Sector público',
-    subtitle: 'Via Mercado Público',
-    pain: 'Municipios y servicios públicos bajo presión política de "usar IA" sin equipo técnico ni presupuesto para las Big 4.',
-    opportunity: 'IA Soberana On-Premise: datos que no salen del perímetro. Cumplimiento Ley 19.628. El único argumento que cierra con el sector público.',
-    tags: ['Municipios', 'Licitaciones', 'On-Premise'],
+    icon: '◆',
+    name: 'Procesos críticos con baja tolerancia al error',
+    subtitle: 'Donde un fallo tiene costo real',
+    pain: 'Hay procesos donde equivocarse cuesta caro — en tiempo, en dinero o en reputación. La IA actúa como segunda revisión que no se cansa ni se distrae.',
+    tags: ['Calidad', 'Auditoría', 'Gestión de riesgo'],
   },
 ];
 
@@ -40,11 +37,11 @@ export function Sectors() {
         <div className={`${styles.header} fade-in`} ref={headerRef}>
           <div className={styles.tag}>Sectores</div>
           <h2 className={styles.title}>
-            Tres nichos donde operamos.
+            Dónde generamos más impacto.
           </h2>
           <p className={styles.sub}>
-            No trabajamos con cualquier empresa. Conocemos el idioma operacional de estos sectores
-            y eso se traduce en proyectos que funcionan.
+            No trabajamos con cualquier empresa. Buscamos operaciones donde la IA resuelve un problema real,
+            medible y que le importa a quien decide.
           </p>
         </div>
 
@@ -61,13 +58,8 @@ export function Sectors() {
                 </div>
 
                 <div className={styles.block}>
-                  <div className={styles.blockLabel}>El dolor</div>
+                  <div className={styles.blockLabel}>El problema</div>
                   <p className={styles.blockText}>{s.pain}</p>
-                </div>
-
-                <div className={`${styles.block} ${styles.blockOpp}`}>
-                  <div className={styles.blockLabel}>La oportunidad</div>
-                  <p className={styles.blockText}>{s.opportunity}</p>
                 </div>
 
                 <div className={styles.tags}>
