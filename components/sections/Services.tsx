@@ -34,6 +34,19 @@ const products = [
   },
   {
     num: '03',
+    name: 'Producto de software',
+    forWho: 'Para empresas que quieren resolver un problema con software propio, no con una herramienta genérica.',
+    duration: '6–16 semanas',
+    deliverables: [
+      'Producto funcional con tu marca y tus datos',
+      'Arquitectura escalable desde el primer día',
+      'Integración con tus sistemas actuales',
+      'Entrega iterativa con validación continua',
+    ],
+    cta: 'Conversemos',
+  },
+  {
+    num: '04',
     name: 'Retainer mensual',
     forWho: 'Para clientes con implementación viva que necesitan evolución continua.',
     duration: 'Contrato mensual, renovación trimestral',
@@ -56,7 +69,7 @@ export function Services() {
         <div className={`${styles.header} fade-in`} ref={headerRef}>
           <div className={styles.tag}>Servicios</div>
           <h2 className={styles.title}>
-            Tres productos. Sin letra chica.
+            Nuestros productos. Sin letra chica.
           </h2>
           <p className={styles.sub}>
             Cada uno alimenta al siguiente. El diagnóstico es el comienzo, no un lead magnet.
