@@ -71,18 +71,9 @@ export function About() {
               <div className={styles.divider} />
 
               <div className={styles.contacts}>
-                <a href="mailto:hola@korriente.cl" className={styles.contactItem}>
+                <a href="mailto:raulduhaldee@gmail.com" className={styles.contactItem}>
                   <span className={styles.contactLabel}>Email</span>
-                  <span className={styles.contactValue}>hola@korriente.cl</span>
-                </a>
-                <a
-                  href="https://linkedin.com/company/korriente"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.contactItem}
-                >
-                  <span className={styles.contactLabel}>LinkedIn</span>
-                  <span className={styles.contactValue}>linkedin.com/company/korriente</span>
+                  <span className={styles.contactValue}>raulduhaldee@gmail.com</span>
                 </a>
                 <div className={styles.contactItem}>
                   <span className={styles.contactLabel}>Ubicación</span>

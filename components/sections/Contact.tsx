@@ -46,13 +46,13 @@ export function Contact() {
             </p>
 
             <div className={styles.items}>
-              <a href="mailto:hola@korriente.cl" className={styles.item}>
+              <a href="mailto:raulduhaldee@gmail.com" className={styles.item}>
                 <div className={styles.itemIcon}>
                   <Icon name="mail" size={17} />
                 </div>
                 <div>
                   <div className={styles.itemLabel}>Email</div>
-                  <div className={styles.itemValue}>hola@korriente.cl</div>
+                  <div className={styles.itemValue}>raulduhaldee@gmail.com</div>
                 </div>
               </a>
               <a

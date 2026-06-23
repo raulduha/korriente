@@ -28,7 +28,7 @@ export function Footer() {
           </div>
         </div>
         <div className={styles.bottom}>
-          <span className={styles.copy}>© 2026 Korriente SpA · hola@korriente.cl</span>
+          <span className={styles.copy}>© 2026 Korriente SpA · raulduhaldee@gmail.com</span>
         </div>
       </div>
     </footer>
