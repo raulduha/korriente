@@ -52,7 +52,7 @@ export function About() {
               <div className={styles.profile}>
                 <div className={styles.avatar}>R</div>
                 <div>
-                  <div className={styles.name}>Rual</div>
+                  <div className={styles.name}>Raul</div>
                   <div className={styles.role}>Fundador · Korriente</div>
                 </div>
               </div>
